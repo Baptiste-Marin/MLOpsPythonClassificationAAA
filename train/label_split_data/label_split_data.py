@@ -145,8 +145,8 @@ def split_copy_data(data_random: IDataRandom,
 
     data_manager.create_directory(output_images_directory)
     label_data = data_manager.load_json(input_labels_path)
-    split_paths = {"arme": [], "agression": [], "alcool": [], "tout public": []}
-    labels = ["arme", "agression", "alcool", "tout public"]
+    split_paths = {"arme": [], "agression": [], "alcool": [], "tout-public": []}
+    labels = ["arme", "agression", "alcool", "tout-public"]
     split_directory_names = ["train", "test", "evaluate"]
     annotations = label_data["annotations"]
     data_random.shuffle(annotations)
