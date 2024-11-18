@@ -106,24 +106,24 @@ def azureml_pipeline(
 
 
 pipeline_job = azureml_pipeline(
-    pdfs_input_data=Input(
-        path="azureml:cats_dogs_others:1", type=AssetTypes.URI_FOLDER
+    trailers_input_data=Input(
+        path="azureml:triple-a:1", type=AssetTypes.URI_FOLDER
     ),
     labels_input_data=Input(
-        path="azureml:cats_dogs_others_labels:1", type=AssetTypes.URI_FOLDER
+        path="azureml:triple-a_labels:1", type=AssetTypes.URI_FOLDER
     ),
 )
 
 
 azure_blob = "azureml://datastores/workspaceblobstore/paths/"
 experiment_id = str(uuid.uuid4())
-custom_output_path = azure_blob + "cats-dogs-others/" + experiment_id + "/"
+custom_output_path = azure_blob + "triple-a/" + experiment_id + "/"
 pipeline_job.outputs.output = Output(
     type=AssetTypes.URI_FOLDER, mode="rw_mount", path=custom_output_path
 )
 
 pipeline_job = ml_client.jobs.create_or_update(
-    pipeline_job, experiment_name="cats_dos_others_pipeline", tags=tags
+    pipeline_job, experiment_name="triple_a_pipeline", tags=tags
 )
 
 ml_client.jobs.stream(pipeline_job.name)
