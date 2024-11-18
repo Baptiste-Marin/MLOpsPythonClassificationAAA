@@ -76,7 +76,7 @@ class LabelSplitDataInput:
     output_images_directory: Path
     output_integration_directory: Path
     number_image_by_label: int = 3
-    number_pdfs_integration: int = 100
+    number_trailers_integration: int = 100
     ratio_number_train_image: float = 0.4
     ratio_number_test_image: float = 0.4
 
@@ -97,7 +97,7 @@ class DataSplit:
         output_images_directory = input.output_images_directory
         output_integration_directory = input.output_integration_directory
         number_image_by_label = input.number_image_by_label
-        number_pdfs_integration = input.number_pdfs_integration
+        number_trailers_integration = input.number_trailers_integration
         ratio_number_train_image = input.ratio_number_train_image
         ratio_number_test_image = input.ratio_number_test_image
 
@@ -108,7 +108,7 @@ class DataSplit:
         copy_trailers_integration_input = CopyPdfsIntegrationInput(input_images_directory,
                                                                input_trailers_directory,
                                                                output_integration_directory,
-                                                               number_pdfs_integration)
+                                                               number_trailers_integration)
 
         trailers_integration = copy_trailers_integration(self.data_random, self.data_manager, copy_trailers_integration_input)
 
