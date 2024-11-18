@@ -14,7 +14,7 @@ input_images_directory = input_directory / "images"
 input_labels_path = input_directory / "labels" / "labels.json"
 input_trailers_directory = input_directory / "trailers"
 
-with open(input_labels_path, "w") as f:
+with open(input_labels_path, "r") as f:
     labels_data = json.load(f)
 
 #def extract_expected_paths(labels_data):
