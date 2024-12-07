@@ -30,33 +30,41 @@ python -m poetry build
 cd $cwd
 
 cd train
+python -m poetry lock --no-update
 python -m poetry install --no-root
 cd $cwd
 
 cd train/extraction
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd train/test
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd train/train
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd train/label_split_data
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd train/output
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd production/api
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
 cd $cwd
 cd production/integration
+python -m poetry lock --no-update
 python -m poetry install --no-root
 
