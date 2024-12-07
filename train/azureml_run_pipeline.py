@@ -110,7 +110,7 @@ pipeline_job = azureml_pipeline(
         path="azureml:movie-trailer:1", type=AssetTypes.URI_FOLDER
     ),
     labels_input_data=Input(
-        path="azureml:movie-trailers-labels:2", type=AssetTypes.URI_FOLDER
+        path="azureml:movie-trailers-labels", type=AssetTypes.URI_FOLDER
     ),
 )
 
@@ -151,7 +151,7 @@ if registered_dataset is not None:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(execute_async())
 
-model_name = "cats-dogs-others"
+model_name = "triple-a"
 try:
     model_version = str(len(list(ml_client.models.list(model_name))) + 1)
 except:
@@ -171,9 +171,9 @@ print(
     f"Model with name {saved_model.name} was registered to workspace, the model version is {saved_model.version}."
 )
 
-integration_dataset_name = "cats-dogs-others-integration"
+integration_dataset_name = "triple-a-integration"
 integration_dataset = Data(
-    name="cats-dogs-others-integration",
+    name="triple-a-integration",
     path=custom_output_path + "integration",
     type=AssetTypes.URI_FOLDER,
     description="Integration dataset for cats and dogs and others",
