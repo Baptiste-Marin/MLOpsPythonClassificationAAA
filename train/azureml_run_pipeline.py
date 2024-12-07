@@ -110,7 +110,7 @@ pipeline_job = azureml_pipeline(
         path="azureml:movie-trailer:1", type=AssetTypes.URI_FOLDER
     ),
     labels_input_data=Input(
-        path="azureml:movie-trailers-labels", type=AssetTypes.URI_FOLDER
+        path="azureml:movie-trailers-labels:5", type=AssetTypes.URI_FOLDER
     ),
 )
 
