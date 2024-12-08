@@ -178,6 +178,10 @@ def split_copy_data(data_random: IDataRandom,
                 destination_path = labels_directory / output_filename
                 source_path = input_images_directory / filename
 
+                print("[DEBUG] source_path: " + str(source_path))
+                print("[DEBUG] source_path exists: " + str(source_path.exists()))
+                print("[DEBUG] source_path with image_trailer_name exists: " + str((input_images_directory / image_trailer_name / filename).exists()))
+
                 if filename == "Pulp Fiction  Official Trailer (HD) - John TravoltaUma Thurman_ Samuel L. Jackson  MIRAMAX_image_1128.jpg":
                     print("[DEBUG] file skipped: " + filename)
                 else:
