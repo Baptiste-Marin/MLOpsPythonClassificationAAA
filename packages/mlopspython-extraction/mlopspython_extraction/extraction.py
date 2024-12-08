@@ -88,7 +88,7 @@ class ExtractImages:
         number_images_output = 0
         for trailer_path in trailers:
             for image_stream in extract_images_stream(trailer_path):
-                filename = "{0}_image{1}.png".format(trailer_path.stem, str(image_stream.index_image))
+                filename = "{0}_image_{1}.png".format(trailer_path.stem, str(image_stream.index_image))
                 #print("[DEBUG] Saving image {0}".format(filename))
                 number_images_output = number_images_output + 1
                 manager.save_image(image_stream.image_bytes_io, str(Path(images_directory_path) / filename))
