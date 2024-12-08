@@ -177,10 +177,14 @@ def split_copy_data(data_random: IDataRandom,
                 output_filename = label + "_" + filename
                 destination_path = labels_directory / output_filename
                 source_path = input_images_directory / filename
-                data_manager.copy_file(source_path, destination_path)
-                path_result = (
-                        split_directory_name + "/" + label + "s" + "/" + output_filename
-                )
+
+                if filename == "Pulp Fiction  Official Trailer (HD) - John TravoltaUma Thurman_ Samuel L. Jackson  MIRAMAX_image_1128.jpg":
+                    print("[DEBUG] file skipped: " + filename)
+                else:
+                    data_manager.copy_file(source_path, destination_path)
+                    path_result = (
+                            split_directory_name + "/" + label + "s" + "/" + output_filename
+                    )
     return LabelSplitDataResult(
         number_file_train_by_label=number_file_train,
         number_file_test_by_label=number_file_test,
