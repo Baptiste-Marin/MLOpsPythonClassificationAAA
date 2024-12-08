@@ -59,6 +59,9 @@ print("args json path -- ", args.local_json_path)
 # loop.run_until_complete(main())
 
 print("[DEBUG] Un chemin local pour le json a été spécifié : ", local_json_path)
+print("[DEBUG] Chemin actuel : ", os.getcwd())
+print("[DEBUG] Répertoire inputs existant : ", os.path.exists("inputs"))
+
 if local_json_path and os.path.exists(local_json_path):
     print("[DEBUG] Le chemin local pour le json est valide.")
     base_path = Path(__file__).resolve().parent
