@@ -163,13 +163,28 @@ def split_copy_data(data_random: IDataRandom,
     number_file_test = int(number_image_by_label * ratio_number_test_image)
     number_file_evaluate = int(number_image_by_label * ratio_number_evaluate_image)
     for label in labels:
-        #if number_image_by_label > len(split_paths[label]):
-            #raise Exception("Not enough files for label " + label)
+        total_files = len(split_paths[label])
+
+        number_file_train = max(1, int(total_files * ratio_number_train_image))
+        number_file_test = max(1, int(total_files * ratio_number_test_image))
+        number_file_evaluate = max(1, total_files - (number_file_train + number_file_test))
+
+        if number_file_train + number_file_test > total_files:
+            number_file_train = int(total_files * 0.4)
+            number_file_test = int(total_files * 0.4)
+            number_file_evaluate = total_files - (number_file_train + number_file_test)
 
         splitted = np.split(
             split_paths[label],
-            [number_file_train, number_file_test + number_file_train],
+            [number_file_train, number_file_train + number_file_test]
         )
+        print(f"Label: {label}")
+        print(f"Train: {len(splitted[0])} files")
+        print(f"Test: {len(splitted[1])} files")
+        print(f"Evaluate: {len(splitted[2])} files")
+
+        if len(splitted[2]) == 0:
+            print(f"Warning: No files for evaluate in label '{label}'!")
         for split_directory_name in split_directory_names:
             labels_directory = (
                     output_images_directory / split_directory_name / (label + "s")
