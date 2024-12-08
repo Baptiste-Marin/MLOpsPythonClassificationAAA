@@ -11,7 +11,7 @@ if [ $RESULT -eq 0 ]; then
 else
   echo "Dataset not found so create it"
   poetry run python run_download_labels.py \
-    --local_json_path "inputs/triple-a-project-annotations.json" # Chemin vers le fichier json contenant les labels
+    --local_json_path "inputs/movie-trailer-annotations.json" # Chemin vers le fichier json contenant les labels
     # --project_name "triple-a-project" \
     # --api_url "https://axaguildev-ecotag.azurewebsites.net/api/server"
 

@@ -16,7 +16,7 @@ import os
 parser = argparse.ArgumentParser("download_labels")
 parser.add_argument("--access_token", type=str, default="")
 parser.add_argument("--project_name", type=str, default="triple-a-project")
-parser.add_argument("--local_json_path", type=str, default="inputs/triple-a-project-annotations.json")
+parser.add_argument("--local_json_path", type=str, default="inputs/movie-trailer-annotations.json")
 # parser.add_argument(
 #     "--api_url",
 #     type=str,
