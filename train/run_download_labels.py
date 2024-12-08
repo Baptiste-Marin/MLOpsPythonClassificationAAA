@@ -16,7 +16,7 @@ import os
 parser = argparse.ArgumentParser("download_labels")
 parser.add_argument("--access_token", type=str, default="")
 parser.add_argument("--project_name", type=str, default="triple-a-project")
-parser.add_argument("--local_json_path", type=str, default="")
+parser.add_argument("--local_json_path", type=str, default="inputs/triple-a-project-annotations.json")
 # parser.add_argument(
 #     "--api_url",
 #     type=str,
@@ -34,6 +34,7 @@ args = parser.parse_args()
 #access_token = args.access_token
 project_name = args.project_name
 local_json_path = args.local_json_path
+print("args json path -- ", args.local_json_path)
 #api_url = args.api_url
 # token_endpoint = args.token_endpoint
 # client_id = args.client_id
@@ -66,5 +67,8 @@ if local_json_path and os.path.exists(local_json_path):
 
     destination_file = dataset_path / "movie-trailer-annotations.json"
     shutil.move(local_json_path, destination_file)
+    
 
     print("[DEBUG] Le fichier a été déplacé dans le répertoire de travail.")
+else: 
+    print("marche pas frr")
