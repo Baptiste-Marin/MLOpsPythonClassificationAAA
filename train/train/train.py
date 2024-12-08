@@ -24,12 +24,12 @@ def define_model():
     # add new classifier layers
     output = model.layers[-1].output
     flat1 = Flatten()(output)
-    output = Dense(3, activation="sigmoid")(flat1)
+    output = Dense(3, activation="softmax")(flat1)
     # define new model
     model = Model(inputs=model.inputs, outputs=output)
     model.compile(
         optimizer="adam",
-        loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),
         metrics=["accuracy"],
     )
     return model
@@ -75,13 +75,13 @@ def run_test_harness(
     # prepare iterator
     train_it = datagen.flow_from_directory(
         str(input_directory / "train"),
-        class_mode="binary",
+        class_mode="sparse",
         batch_size=batch_size,
         target_size=(224, 224),
     )
     validation_it = datagen.flow_from_directory(
         str(input_directory / "evaluate"),
-        class_mode="binary",
+        class_mode="sparse",
         batch_size=batch_size,
         target_size=(224, 224),
     )
