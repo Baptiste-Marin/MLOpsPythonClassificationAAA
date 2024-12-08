@@ -24,7 +24,7 @@ def define_model():
     # add new classifier layers
     output = model.layers[-1].output
     flat1 = Flatten()(output)
-    output = Dense(3, activation="softmax")(flat1)
+    output = Dense(4, activation="softmax")(flat1)
     # define new model
     model = Model(inputs=model.inputs, outputs=output)
     model.compile(
@@ -103,7 +103,7 @@ def run_test_harness(
     # test model
     evaluate_it = datagen.flow_from_directory(
         str(input_directory / "test"),
-        class_mode="binary",
+        class_mode="sparse",
         batch_size=batch_size,
         target_size=(224, 224),
     )

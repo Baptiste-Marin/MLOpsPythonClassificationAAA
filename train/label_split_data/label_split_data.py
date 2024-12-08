@@ -165,19 +165,23 @@ def split_copy_data(data_random: IDataRandom,
     for label in labels:
         total_files = len(split_paths[label])
 
-        number_file_train = max(1, int(total_files * ratio_number_train_image))
-        number_file_test = max(1, int(total_files * ratio_number_test_image))
-        number_file_evaluate = max(1, total_files - (number_file_train + number_file_test))
+        if label == "alcool" and total_files == 1:
+            print(f"Special case for label '{label}': only 1 image available.")
+            splitted = [split_paths[label], split_paths[label], split_paths[label]]
+        else:
+            number_file_train = max(1, int(total_files * ratio_number_train_image))
+            number_file_test = max(1, int(total_files * ratio_number_test_image))
+            number_file_evaluate = max(1, total_files - (number_file_train + number_file_test))
 
-        if number_file_train + number_file_test > total_files:
-            number_file_train = int(total_files * 0.4)
-            number_file_test = int(total_files * 0.4)
-            number_file_evaluate = total_files - (number_file_train + number_file_test)
+            if number_file_train + number_file_test > total_files:
+                number_file_train = int(total_files * 0.4)
+                number_file_test = int(total_files * 0.4)
+                number_file_evaluate = total_files - (number_file_train + number_file_test)
 
-        splitted = np.split(
-            split_paths[label],
-            [number_file_train, number_file_train + number_file_test]
-        )
+            splitted = np.split(
+                split_paths[label],
+                [number_file_train, number_file_train + number_file_test]
+            )
         print(f"Label: {label}")
         print(f"Train: {len(splitted[0])} files")
         print(f"Test: {len(splitted[1])} files")
