@@ -158,8 +158,8 @@ def split_copy_data(data_random: IDataRandom,
     number_file_train = int(number_image_by_label * ratio_number_train_image)
     number_file_test = int(number_image_by_label * ratio_number_test_image)
     for label in labels:
-        if number_image_by_label > len(split_paths[label]):
-            raise Exception("Not enough files for label " + label)
+        #if number_image_by_label > len(split_paths[label]):
+            #raise Exception("Not enough files for label " + label)
 
         splitted = np.split(
             split_paths[label],
