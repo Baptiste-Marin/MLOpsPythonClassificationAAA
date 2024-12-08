@@ -88,7 +88,7 @@ class ExtractImages:
         number_images_output = 0
         for trailer_path in trailers:
             for image_stream in extract_images_stream(trailer_path):
-                filename = "{0}_image_{1}.jpg".format(trailer_path.stem, str(image_stream.index_image))
+                filename = f'{trailer_path.stem}_image_{image_stream.index_image:04d}.jpg'
                 filename = filename.replace("|", "_").replace("[", "(").replace("]", ")").replace("#", "_").replace(":","_").replace(",", "_")
                 # print("[DEBUG] Saving image {0}".format(filename))
                 number_images_output = number_images_output + 1

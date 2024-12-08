@@ -27,7 +27,7 @@ class TestExtraction(unittest.TestCase):
         save_image_call = data_manager_mock.save_image.call_args_list
         #print("[DEBUG] test_trailers_images_should_be_extracted------")
         #print("[DEBUG] save_image_call: {0}".format(save_image_call))
-        self.assertTrue(save_image_call[0].args[1].endswith("_image_0.jpg"))
+        self.assertTrue(save_image_call[0].args[1].endswith("_image_0000.jpg"))
         self.assertEqual(len(save_image_call), 51 * len(data_manager_mock.get_movie_trailers(input_directory_str)))
 
 
