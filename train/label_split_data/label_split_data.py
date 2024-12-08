@@ -77,8 +77,9 @@ class LabelSplitDataInput:
     output_integration_directory: Path
     number_image_by_label: int = 3
     number_trailers_integration: int = 100
-    ratio_number_train_image: float = 0.4
-    ratio_number_test_image: float = 0.4
+    ratio_number_train_image: float = 0.3
+    ratio_number_test_image: float = 0.3
+    ratio_number_evaluate_image: float = 0.4
 
 
 class DataSplit:
@@ -100,6 +101,7 @@ class DataSplit:
         number_trailers_integration = input.number_trailers_integration
         ratio_number_train_image = input.ratio_number_train_image
         ratio_number_test_image = input.ratio_number_test_image
+        ratio_number_evaluate_image = input.ratio_number_evaluate_image
 
         self.data_random.seed(11)
         if ratio_number_test_image + ratio_number_test_image > 1:
@@ -114,7 +116,7 @@ class DataSplit:
 
         split_copy_data_input = SplitCopyDataInput(input_images_directory, input_labels_path, number_image_by_label,
                                                    output_images_directory, trailers_integration,
-                                                   ratio_number_test_image, ratio_number_train_image)
+                                                   ratio_number_test_image, ratio_number_train_image, ratio_number_evaluate_image)
 
         return split_copy_data(self.data_random,
                                self.data_manager,
@@ -130,6 +132,7 @@ class SplitCopyDataInput:
     trailers_integration: [str]
     ratio_number_test_image: float
     ratio_number_train_image: float
+    ratio_number_evaluate_image: float
 
 
 def split_copy_data(data_random: IDataRandom,
@@ -142,6 +145,7 @@ def split_copy_data(data_random: IDataRandom,
     trailers_integration = input.trailers_integration
     ratio_number_test_image = input.ratio_number_test_image
     ratio_number_train_image = input.ratio_number_train_image
+    ratio_number_evaluate_image = input.ratio_number_evaluate_image
 
     data_manager.create_directory(output_images_directory)
     label_data = data_manager.load_json(input_labels_path)
@@ -157,6 +161,7 @@ def split_copy_data(data_random: IDataRandom,
             split_paths[label].append(filename)
     number_file_train = int(number_image_by_label * ratio_number_train_image)
     number_file_test = int(number_image_by_label * ratio_number_test_image)
+    number_file_evaluate = int(number_image_by_label * ratio_number_evaluate_image)
     for label in labels:
         #if number_image_by_label > len(split_paths[label]):
             #raise Exception("Not enough files for label " + label)
