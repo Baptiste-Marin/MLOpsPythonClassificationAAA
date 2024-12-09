@@ -32,6 +32,6 @@ class Inference:
         img = load_image(filepath)
         result = self.model.predict(img)
         values = [float(result[0][0]), float(result[0][1]), float(result[0][2])]
-        switcher = ['Cat', 'Dog', 'Other']
+        switcher = ['Arme', 'Alcool', 'Agression', 'Tout-public']
         prediction = np.argmax(result[0])
         return {"prediction": switcher[prediction], "values": values}
