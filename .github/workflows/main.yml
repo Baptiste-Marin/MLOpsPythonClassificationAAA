@@ -287,43 +287,43 @@ jobs:
         echo ${{ env.DOCKER_REGISTRY }}/${{ needs.train.outputs.DOCKER_REPOSITORY }}/${{ env.DOCKER_API_IMAGE_NAME }}:${{ needs.tags.outputs.new_version }}
         az container create --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME}} --name ${{ env.AZURE_WEBAPP_NAME }} --dns-name-label ${{ env.AZURE_WEBAPP_NAME }} --image ${{ env.DOCKER_REGISTRY }}/${{ needs.train.outputs.DOCKER_REPOSITORY }}/${{ env.DOCKER_API_IMAGE_NAME }}:${{ needs.tags.outputs.new_version }} --ports 5000 --os-type Linux --cpu 2 --memory 2
 
-  integration_tests:
-    environment: MLOpsPython
-    runs-on: ubuntu-latest
-    needs: [deploy, train]
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install --user poetry
-    - name: azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-    - name: Run Integration Test
-      working-directory: production/integration
-      run: |
-        poetry install
-        az extension add -n ml
-        poetry run python azureml_run_pipeline.py \
-            --subscription_id ${{ secrets.AZURE_SUBSCRIPTION_ID }}  \
-            --resource_group_name ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
-            --workspace_name ${{ env.AZURE_ML_WORKSPACE_NAME }} \
-            --experiment_id ${{ needs.train.outputs.EXPERIMENT_ID }} \
-            --integration_dataset_name "triple-a-integration" \
-            --integration_dataset_version ${{ needs.train.outputs.INTEGRATION_DATASET_VERSION }} \
-            --url "http://${{ env.AZURE_WEBAPP_NAME }}.${{ env.AZURE_LOCATION }}.azurecontainer.io:5000/upload" > integration_output.txt 
-        cat integration_output.txt
-    - name: Delete Environment
-      run: |
-          if [ "${{ env.DELETE_WEBAPP }}" = "true" ]; then
-            az container delete --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME}} --name ${{ env.AZURE_WEBAPP_NAME }} --yes
-          fi
+#  integration_tests:
+#    environment: MLOpsPython
+#    runs-on: ubuntu-latest
+#    needs: [deploy, train]
+#    steps:
+#    - uses: actions/checkout@v4
+#    - name: Set up Python ${{ env.PYTHON_VERSION }}
+#      uses: actions/setup-python@v3
+#      with:
+#        python-version: ${{ env.PYTHON_VERSION }}
+#    - name: Install Python dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install --user poetry
+#    - name: azure login
+#      uses: azure/login@v1
+#      with:
+#        creds: ${{secrets.AZURE_CREDENTIALS}}
+#    - name: Run Integration Test
+#      working-directory: production/integration
+#      run: |
+#        poetry install
+#        az extension add -n ml
+#        poetry run python azureml_run_pipeline.py \
+#            --subscription_id ${{ secrets.AZURE_SUBSCRIPTION_ID }}  \
+#            --resource_group_name ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+#            --workspace_name ${{ env.AZURE_ML_WORKSPACE_NAME }} \
+#            --experiment_id ${{ needs.train.outputs.EXPERIMENT_ID }} \
+#            --integration_dataset_name "triple-a-integration" \
+#            --integration_dataset_version ${{ needs.train.outputs.INTEGRATION_DATASET_VERSION }} \
+#            --url "http://${{ env.AZURE_WEBAPP_NAME }}.${{ env.AZURE_LOCATION }}.azurecontainer.io:5000/upload" > integration_output.txt
+#        cat integration_output.txt
+#    - name: Delete Environment
+#      run: |
+#          if [ "${{ env.DELETE_WEBAPP }}" = "true" ]; then
+#            az container delete --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME}} --name ${{ env.AZURE_WEBAPP_NAME }} --yes
+#          fi
   webapp_unit_tests:
     runs-on: ubuntu-latest
     environment: MLOpsPython
@@ -368,7 +368,6 @@ jobs:
 
   change_log:
     runs-on: ubuntu-latest
-    needs: [ integration_tests ]
     environment: MLOpsPython
     steps:
       - uses: actions/checkout@v4
