@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.0.37
+
+- [52e1552](/52e155231a0e4968c09a40b7d16215edeabedfe0) - disable integration, 2024-12-09 by *Marius-courquin*
+
+
 ## v0.0.36
 
 - [0758ecb](/0758ecb78ac6384feee553e0ba5060f2ce3e4cfa) - add cpu / gpu, 2024-12-09 by *Marius-courquin*
