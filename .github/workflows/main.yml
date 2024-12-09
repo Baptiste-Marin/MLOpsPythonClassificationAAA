@@ -143,117 +143,117 @@ jobs:
           else
             echo "new_version=pr-${{ github.event.number }}-${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
-  train:
-    runs-on: ubuntu-latest
-    environment: MLOpsPython
-    needs: tags
-    outputs:
-      MODEL_VERSION: ${{ steps.train.outputs.MODEL_VERSION }}
-      INTEGRATION_DATASET_VERSION: ${{ steps.train.outputs.INTEGRATION_DATASET_VERSION }}
-      EXPERIMENT_ID: ${{ steps.train.outputs.EXPERIMENT_ID }}
-      AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
-      AZURE_ML_WORKSPACE_NAME: ${{ env.AZURE_ML_WORKSPACE_NAME }}
-      DOCKER_API_IMAGE_NAME: ${{ env.DOCKER_API_IMAGE_NAME }}
-      AZURE_LOCATION: ${{ env.AZURE_LOCATION }}
-      DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
-      DOCKER_REPOSITORY: ${{ steps.docker-repository.outputs.DOCKER_REPOSITORY }}
-    steps:
-    - name: Lower Case Docker Repository
-      id: docker-repository
-      run: |
-        DOCKER_REPOSITORY=$(echo "${{ env.DOCKER_REPOSITORY }}" | tr '[:upper:]' '[:lower:]')
-        echo "DOCKER_REPOSITORY=$DOCKER_REPOSITORY" >> $GITHUB_OUTPUT
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install --user poetry
-    - name: Build packages
-      run: |
-        chmod +x ./Makefile
-        ./Makefile
-    - name: azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-    - name: Run Train Pipeline
-      run: |
-          chmod +x ./setup_AzureML.sh
-          ./setup_AzureML.sh ${{ secrets.AZURE_SUBSCRIPTION_ID }} ${{ env.AZURE_RESOURCE_GROUP_NAME }} ${{ env.AZURE_ML_WORKSPACE_NAME }} ${{ env.AZURE_LOCATION }}
-          chmod +x ./run_AzureML.sh
-          ./run_AzureML.sh ${{ secrets.AZURE_SUBSCRIPTION_ID }} \
-              ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
-              ${{ env.AZURE_ML_WORKSPACE_NAME }} \
-              ${{ env.AZURE_LOCATION }} \
-              "{\"git_head_ref\":\"${{ github.head_ref }}\",\"git\":\"${{ github.head_ref }}.${{ github.sha }}\",\"version\":\"${{ needs.tags.outputs.new_version }}\",\"triggering_actor\":\"${{github.triggering_actor}}\"}" > train_output.txt
-          cat train_output.txt
-      working-directory: train
-    - name: download model
-      id: train
-      run: |
-          MODEL_VERSION=$(python bin/retrieve_output.py ./train/train_output.txt model_version)
-          echo "MODEL_VERSION=$MODEL_VERSION" >> $GITHUB_OUTPUT          
-          INTEGRATION_DATASET_VERSION=$(python bin/retrieve_output.py ./train/train_output.txt integration_dataset_version)
-          echo "INTEGRATION_DATASET_VERSION=$INTEGRATION_DATASET_VERSION" >> $GITHUB_OUTPUT
-          EXPERIMENT_ID=$(python bin/retrieve_output.py ./train/train_output.txt experiment_id)
-          echo "EXPERIMENT_ID=$EXPERIMENT_ID" >> $GITHUB_OUTPUT
-          mkdir model
-          rm -r model
-          mkdir model
-          cd model
-          DOWNLOAD_PATH=$PWD
-          cd ..
-          cd train
-          chmod +x ./run_download_model.sh
-          ./run_download_model.sh $MODEL_VERSION ${{ env.AZURE_RESOURCE_GROUP_NAME }} ${{ env.AZURE_ML_WORKSPACE_NAME }} ${{ env.AZURE_LOCATION }} ${{ secrets.AZURE_SUBSCRIPTION_ID }} $DOWNLOAD_PATH
-          cd ..
-          cd model
-          # find files recursively and copy them to the current directory root
-          find ./ -name '*.keras' -exec cp "{}" ./  \;
-          find ./ -name '*.json' -exec cp "{}" ./  \;
-          rm -r ./triple-a
-    - name: Upload Model Build Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Publish model
-        path: ./model
-    - name: release
-      uses: actions/create-release@v1
-      id: create_release
-      if: github.ref == 'refs/heads/main'
-      with:
-        draft: false
-        prerelease: false
-        body: |
-          ${{ needs.tags.outputs.changelog }}
-        release_name: "v${{ needs.tags.outputs.new_version }}"
-        tag_name: "v${{ needs.tags.outputs.new_version }}"
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@0.6.0
-      with:
-        filename: mlopspython_model.zip
-        path: .
-        directory: ./model
-    - name: upload artifact
-      if: github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./model/mlopspython_model.zip
-        asset_name: mlopspython_model.zip
-        asset_content_type: application/zip
+#  train:
+#    runs-on: ubuntu-latest
+#    environment: MLOpsPython
+#    needs: tags
+#    outputs:
+#      MODEL_VERSION: ${{ steps.train.outputs.MODEL_VERSION }}
+#      INTEGRATION_DATASET_VERSION: ${{ steps.train.outputs.INTEGRATION_DATASET_VERSION }}
+#      EXPERIMENT_ID: ${{ steps.train.outputs.EXPERIMENT_ID }}
+#      AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+#      AZURE_ML_WORKSPACE_NAME: ${{ env.AZURE_ML_WORKSPACE_NAME }}
+#      DOCKER_API_IMAGE_NAME: ${{ env.DOCKER_API_IMAGE_NAME }}
+#      AZURE_LOCATION: ${{ env.AZURE_LOCATION }}
+#      DOCKER_REGISTRY: ${{ env.DOCKER_REGISTRY }}
+#      DOCKER_REPOSITORY: ${{ steps.docker-repository.outputs.DOCKER_REPOSITORY }}
+#    steps:
+#    - name: Lower Case Docker Repository
+#      id: docker-repository
+#      run: |
+#        DOCKER_REPOSITORY=$(echo "${{ env.DOCKER_REPOSITORY }}" | tr '[:upper:]' '[:lower:]')
+#        echo "DOCKER_REPOSITORY=$DOCKER_REPOSITORY" >> $GITHUB_OUTPUT
+#    - uses: actions/checkout@v4
+#      with:
+#        fetch-depth: 0
+#    - name: Set up Python ${{ env.PYTHON_VERSION }}
+#      uses: actions/setup-python@v3
+#      with:
+#        python-version: ${{ env.PYTHON_VERSION }}
+#    - name: Install Python dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install --user poetry
+#    - name: Build packages
+#      run: |
+#        chmod +x ./Makefile
+#        ./Makefile
+#    - name: azure login
+#      uses: azure/login@v1
+#      with:
+#        creds: ${{secrets.AZURE_CREDENTIALS}}
+#    - name: Run Train Pipeline
+#      run: |
+#          chmod +x ./setup_AzureML.sh
+#          ./setup_AzureML.sh ${{ secrets.AZURE_SUBSCRIPTION_ID }} ${{ env.AZURE_RESOURCE_GROUP_NAME }} ${{ env.AZURE_ML_WORKSPACE_NAME }} ${{ env.AZURE_LOCATION }}
+#          chmod +x ./run_AzureML.sh
+#          ./run_AzureML.sh ${{ secrets.AZURE_SUBSCRIPTION_ID }} \
+#              ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+#              ${{ env.AZURE_ML_WORKSPACE_NAME }} \
+#              ${{ env.AZURE_LOCATION }} \
+#              "{\"git_head_ref\":\"${{ github.head_ref }}\",\"git\":\"${{ github.head_ref }}.${{ github.sha }}\",\"version\":\"${{ needs.tags.outputs.new_version }}\",\"triggering_actor\":\"${{github.triggering_actor}}\"}" > train_output.txt
+#          cat train_output.txt
+#      working-directory: train
+#    - name: download model
+#      id: train
+#      run: |
+#          MODEL_VERSION=$(python bin/retrieve_output.py ./train/train_output.txt model_version)
+#          echo "MODEL_VERSION=$MODEL_VERSION" >> $GITHUB_OUTPUT
+#          INTEGRATION_DATASET_VERSION=$(python bin/retrieve_output.py ./train/train_output.txt integration_dataset_version)
+#          echo "INTEGRATION_DATASET_VERSION=$INTEGRATION_DATASET_VERSION" >> $GITHUB_OUTPUT
+#          EXPERIMENT_ID=$(python bin/retrieve_output.py ./train/train_output.txt experiment_id)
+#          echo "EXPERIMENT_ID=$EXPERIMENT_ID" >> $GITHUB_OUTPUT
+#          mkdir model
+#          rm -r model
+#          mkdir model
+#          cd model
+#          DOWNLOAD_PATH=$PWD
+#          cd ..
+#          cd train
+#          chmod +x ./run_download_model.sh
+#          ./run_download_model.sh $MODEL_VERSION ${{ env.AZURE_RESOURCE_GROUP_NAME }} ${{ env.AZURE_ML_WORKSPACE_NAME }} ${{ env.AZURE_LOCATION }} ${{ secrets.AZURE_SUBSCRIPTION_ID }} $DOWNLOAD_PATH
+#          cd ..
+#          cd model
+#          # find files recursively and copy them to the current directory root
+#          find ./ -name '*.keras' -exec cp "{}" ./  \;
+#          find ./ -name '*.json' -exec cp "{}" ./  \;
+#          rm -r ./triple-a
+#    - name: Upload Model Build Artifact
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: Publish model
+#        path: ./model
+#    - name: release
+#      uses: actions/create-release@v1
+#      id: create_release
+#      if: github.ref == 'refs/heads/main'
+#      with:
+#        draft: false
+#        prerelease: false
+#        body: |
+#          ${{ needs.tags.outputs.changelog }}
+#        release_name: "v${{ needs.tags.outputs.new_version }}"
+#        tag_name: "v${{ needs.tags.outputs.new_version }}"
+#      env:
+#        GITHUB_TOKEN: ${{ github.token }}
+#    - name: Zip Release
+#      uses: TheDoctor0/zip-release@0.6.0
+#      with:
+#        filename: mlopspython_model.zip
+#        path: .
+#        directory: ./model
+#    - name: upload artifact
+#      if: github.ref == 'refs/heads/main'
+#      uses: actions/upload-release-asset@v1
+#      env:
+#        GITHUB_TOKEN: ${{ github.token }}
+#      with:
+#        upload_url: ${{ steps.create_release.outputs.upload_url }}
+#        asset_path: ./model/mlopspython_model.zip
+#        asset_name: mlopspython_model.zip
+#        asset_content_type: application/zip
   build_docker_api:
-    needs: [train, tags]
+    needs: [tags]
     uses: ./.github/workflows/docker_with_model.yml
     with:
       image_name: ${{ needs.train.outputs.DOCKER_API_IMAGE_NAME }}
@@ -275,7 +275,7 @@ jobs:
   deploy:
     environment: MLOpsPython
     runs-on: ubuntu-latest
-    needs: [tags, train, build_docker_api, build_docker_webapp]
+    needs: [tags, build_docker_api, build_docker_webapp]
     steps:
     - name: azure login
       uses: azure/login@v1
@@ -352,7 +352,7 @@ jobs:
         name: Publish webapp
         path: ./production/webapp/build
   build_docker_webapp:
-    needs: [webapp_unit_tests, tags, train]
+    needs: [webapp_unit_tests, tags]
     uses: ./.github/workflows/docker.yml
     with:
       image_name: ${{ needs.webapp_unit_tests.outputs.DOCKER_WEBAPP_IMAGE_NAME }}
