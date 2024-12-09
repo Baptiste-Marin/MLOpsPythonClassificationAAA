@@ -10,7 +10,7 @@ env:
   PNPM_VERSION: 8.5.1
   PYTHON_VERSION: 3.10.15
   NODE_VERSION: 18
-  AZURE_RESOURCE_GROUP_NAME: "azure-ml-classificationAAA"
+  AZURE_RESOURCE_GROUP_NAME: "azure-ml-classification-aaa"
   AZURE_LOCATION: "northeurope"
   AZURE_ML_WORKSPACE_NAME: "wrokspace-classificationAAA"
   AZURE_WEBAPP_NAME: "webapp-classificationAAA"
