@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.0.38
+
+- [cb584a6](/cb584a6b0be8e3707d8fbf4df0e37701fa7c682e) - shortcut pipeline, 2024-12-09 by *Marius-courquin*
+- [c41a0dd](/c41a0dd69863b3418b5855317e5989079ff4ca94) - fix cors, 2024-12-09 by *Marius-courquin*
+
+
 ## v0.0.37
 
 - [52e1552](/52e155231a0e4968c09a40b7d16215edeabedfe0) - disable integration, 2024-12-09 by *Marius-courquin*
