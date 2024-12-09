@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.0.40
+
+- [4fb6b25](/4fb6b25dc78c5b18f76c33c73cc123d57e298ad2) - update pillow switcher, 2024-12-09 by *Marius-courquin*
+
+
 ## v0.0.39
 
 - [d60e783](/d60e783b3f5a902b0ad92569189ab24e178cb196) - remove shortcut, 2024-12-09 by *Marius-courquin*
