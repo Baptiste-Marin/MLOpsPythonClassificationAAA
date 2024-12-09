@@ -5,14 +5,12 @@ parser = argparse.ArgumentParser("output")
 parser.add_argument("--extraction_images_input", type=str)
 parser.add_argument("--extraction_hash_input", type=str)
 parser.add_argument("--model_input", type=str)
-parser.add_argument("--integration_input", type=str)
 parser.add_argument("--main_output", type=str)
 
 args = parser.parse_args()
 extraction_images_input = args.extraction_images_input
 extraction_hash_input = args.extraction_hash_input
 model_input = args.model_input
-integration_input = args.integration_input
 main_output = args.main_output
 
 

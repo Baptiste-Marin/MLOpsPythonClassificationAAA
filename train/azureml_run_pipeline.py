@@ -97,7 +97,6 @@ def azureml_pipeline(
         extraction_hash_input=extraction.outputs.hash_output,
         extraction_images_input=extraction.outputs.images_output,
         model_input=test_data.outputs.model_output,
-        integration_input=test_data.outputs.integration_output,
     )
 
     return {
