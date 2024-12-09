@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.0.39
+
+- [d60e783](/d60e783b3f5a902b0ad92569189ab24e178cb196) - remove shortcut, 2024-12-09 by *Marius-courquin*
+
+
 ## v0.0.38
 
 - [cb584a6](/cb584a6b0be8e3707d8fbf4df0e37701fa7c682e) - shortcut pipeline, 2024-12-09 by *Marius-courquin*
