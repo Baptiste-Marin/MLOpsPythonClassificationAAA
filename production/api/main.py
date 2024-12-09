@@ -27,8 +27,7 @@ logging.configure_module()
 
 app = FastAPI()
 origins = [
-    "http://localhost",
-    "http://localhost:4000",
+    "*"
 ]
 app.add_middleware(
     CORSMiddleware,

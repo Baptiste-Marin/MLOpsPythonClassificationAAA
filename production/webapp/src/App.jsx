@@ -16,13 +16,13 @@ function App() {
   const [feedback, setFeedback] = useState({});
 
   const UPLOAD_ENDPOINT =
-    "http://localhost:8000/upload";
+    "http://webapp-classification-aaa.northeurope.azurecontainer.io:5000/upload";
 
   const uploadFile = async file => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const str = JSON.stringify({version:"1.0.0", "type":type});
+    const str = JSON.stringify({version:"1.0.0", "type":"pillow"});
     const bytes = new TextEncoder().encode(str);
     const blob = new Blob([bytes], {
       type: "application/json;charset=utf-8"
