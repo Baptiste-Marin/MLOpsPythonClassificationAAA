@@ -92,7 +92,7 @@ pipeline_job = azureml_pipeline(
 azure_blob = "azureml://datastores/workspaceblobstore/paths/"
 experience_id = str(uuid.uuid4())
 
-custom_integration_path = azure_blob + "/integration-output/cats-dogs-others/" + experience_id + "/"
+custom_integration_path = azure_blob + "/integration-output/triple-a/" + experience_id + "/"
 pipeline_job.outputs.integration_output = Output(
     type=URI_FOLDER, mode="rw_mount", path=custom_integration_path
 )
@@ -104,7 +104,7 @@ pipeline_job = ml_client.jobs.create_or_update(
 ml_client.jobs.stream(pipeline_job.name)
 
 integration_output_dataset = Data(
-    name="cats-dogs-others-integration-output",
+    name="triple-a-integration-output",
     path=custom_integration_path,
     type=URI_FOLDER,
     description="Dataset for credit card defaults",

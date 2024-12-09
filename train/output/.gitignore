@@ -5,4 +5,4 @@
 **/*.egg-info/
 **/__pycache__/
 /.coverage
-/dataset-cats-dogs-others/
+/dataset-triple-a/

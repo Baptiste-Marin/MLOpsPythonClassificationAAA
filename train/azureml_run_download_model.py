@@ -39,6 +39,6 @@ ml_client = MLClient(
     workspace_name=workspace_name,
 )
 
-model_name = 'cats-dogs-others'
+model_name = 'triple-a'
 
 ml_client.models.download(name=model_name, version=version, download_path=download_path)

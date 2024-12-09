@@ -1,1 +1,1 @@
-NAME = "cats-dogs-others"
+NAME = "triple-a"

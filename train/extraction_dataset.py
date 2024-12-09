@@ -28,7 +28,7 @@ def register_extracted_dataset(ml_client,
         computed_hash = file.read()
     print(f"computed_hash: {computed_hash}")
 
-    extracted_images_dataset_name = "cats-dogs-others-extracted"
+    extracted_images_dataset_name = "triple-a-extracted"
     try:
         list_datasets = ml_client.data.list(extracted_images_dataset_name)
         list_list_dataset = list(list_datasets)
@@ -36,7 +36,7 @@ def register_extracted_dataset(ml_client,
     except:
         list_list_dataset = []
         version_dataset_extraction = 1
-        print("No dataset with name cats-dogs-others-extracted")
+        print("No dataset with name triple-a-extracted")
 
     hash_tag_already_exists = False
     len_dataset = len(list_list_dataset)

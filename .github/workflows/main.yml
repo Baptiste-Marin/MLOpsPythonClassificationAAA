@@ -217,7 +217,7 @@ jobs:
           # find files recursively and copy them to the current directory root
           find ./ -name '*.keras' -exec cp "{}" ./  \;
           find ./ -name '*.json' -exec cp "{}" ./  \;
-          rm -r ./cats-dogs-others
+          rm -r ./triple-a
     - name: Upload Model Build Artifact
       uses: actions/upload-artifact@v3
       with:
@@ -314,7 +314,7 @@ jobs:
             --resource_group_name ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
             --workspace_name ${{ env.AZURE_ML_WORKSPACE_NAME }} \
             --experiment_id ${{ needs.train.outputs.EXPERIMENT_ID }} \
-            --integration_dataset_name "cats-dogs-others-integration" \
+            --integration_dataset_name "triple-a-integration" \
             --integration_dataset_version ${{ needs.train.outputs.INTEGRATION_DATASET_VERSION }} \
             --url "http://${{ env.AZURE_WEBAPP_NAME }}.${{ env.AZURE_LOCATION }}.azurecontainer.io:5000/upload" > integration_output.txt 
         cat integration_output.txt
