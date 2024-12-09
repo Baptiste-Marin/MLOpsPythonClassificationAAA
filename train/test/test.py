@@ -48,13 +48,13 @@ def execute_model_and_generate_integration_test_data(
     #     results.append(result)
     # statistics["total"] = statistics["ok"] + statistics["ko"]
 
-    # with open(model_output_directory / "statistics.json", "w") as file_stream:
-    #     json.dump(statistics, file_stream, indent=4)
-    #
-    # with open(model_output_directory / "predictions.json", "w") as file_stream:
-    #     json.dump(results, file_stream, indent=4)
-    # model_path_output = model_output_directory / model_name
-    # model_path_output.write_bytes(model_path.read_bytes())
+    with open(model_output_directory / "statistics.json", "w") as file_stream:
+        json.dump(statistics, file_stream, indent=4)
+
+    with open(model_output_directory / "predictions.json", "w") as file_stream:
+        json.dump(results, file_stream, indent=4)
+    model_path_output = model_output_directory / model_name
+    model_path_output.write_bytes(model_path.read_bytes())
     #
     # prepare_integration_data(input_integration_directory, integration_output_directory, model.execute)
 
